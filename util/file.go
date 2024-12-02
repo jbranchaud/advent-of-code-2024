@@ -8,6 +8,49 @@ import (
 	"strings"
 )
 
+func ReadLinesOfInts(filename string) ([][]int, error) {
+	// Open the file
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, fmt.Errorf("error opening file: %v", err)
+	}
+	defer file.Close()
+
+	// Create a scanner to read the file line by line
+	scanner := bufio.NewScanner(file)
+
+	lineNumber := 0
+
+	var lines [][]int
+
+	// Read each line
+	for scanner.Scan() {
+		lineNumber += 1
+
+		// Split the line into fields
+		fields := strings.Fields(scanner.Text())
+
+		var numbers []int
+
+		for _, field := range fields {
+			number, err := strconv.Atoi(field)
+			if err != nil {
+				return nil, fmt.Errorf("line %d: expected field to be int, got %s", lineNumber, field)
+			}
+			numbers = append(numbers, number)
+		}
+
+		lines = append(lines, numbers)
+	}
+
+	// Check for any errors during scanning
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("error reading file: %v", err)
+	}
+
+	return lines, nil
+}
+
 func ReadPairs(filename string) ([]int, []int, error) {
 	// Open the file
 	file, err := os.Open(filename)

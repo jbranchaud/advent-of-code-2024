@@ -10,3 +10,11 @@ func PrintFirstAndLast(name string, list []int) {
 		fmt.Printf("List '%s' is empty", name)
 	}
 }
+
+func Split[T any](slice []T) (T, []T) {
+	var zero T
+	if len(slice) == 0 {
+		return zero, nil
+	}
+	return slice[0], slice[1:]
+}
