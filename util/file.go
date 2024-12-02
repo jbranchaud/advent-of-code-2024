@@ -38,11 +38,11 @@ func ReadPairs(filename string) ([]int, []int, error) {
 
 		locationIdOne, err := strconv.Atoi(fields[0])
 		if err != nil {
-			return nil, nil, fmt.Errorf("line%d: expected field 1 to be int, got %d", lineNumber, fields[0])
+			return nil, nil, fmt.Errorf("line %d: expected field 1 to be int, got %s", lineNumber, fields[0])
 		}
 		locationIdTwo, err := strconv.Atoi(fields[1])
 		if err != nil {
-			return nil, nil, fmt.Errorf("line%d: expected field 2 to be int, got %d", lineNumber, fields[1])
+			return nil, nil, fmt.Errorf("line %d: expected field 2 to be int, got %s", lineNumber, fields[1])
 		}
 
 		firstList = append(firstList, locationIdOne)
