@@ -8,6 +8,29 @@ import (
 	"strings"
 )
 
+func ReadLines(filename string) ([]string, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, fmt.Errorf("error opening file: %v", err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+
+	var lines []string
+
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	// Check for any errors during scanning
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("error reading file: %v", err)
+	}
+
+	return lines, nil
+}
+
 func ReadLinesOfInts(filename string) ([][]int, error) {
 	// Open the file
 	file, err := os.Open(filename)
