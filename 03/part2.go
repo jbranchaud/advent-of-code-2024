@@ -7,6 +7,7 @@ import (
 	"strconv"
 )
 
+// part 2 solution => 102467299
 func part2(debug bool) {
 	programs, err := util.ReadLines("input1.txt")
 	if err != nil {
@@ -36,44 +37,57 @@ func part2(debug bool) {
 
 		mulCursor, doCursor, dontCursor := 0, 0, 0
 
+		parseMultiplicationMatch := func() int {
+			match := mulIndexes[mulCursor]
+			mulCursor++
+			if status == "DONT" {
+				if debug {
+					fmt.Println("x", program[match[0]:match[1]])
+				}
+
+				return 0
+			}
+
+			op1, err := strconv.Atoi(program[match[2]:match[3]])
+			if err != nil {
+				panic(fmt.Errorf("error parsing op1 int: %v", err))
+			}
+			op2, err := strconv.Atoi(program[match[4]:match[5]])
+			if err != nil {
+				panic(fmt.Errorf("error parsing op2 int: %v", err))
+			}
+
+			mulResult := op1 * op2
+			if debug {
+				fmt.Println(program[match[0]:match[1]], "=>", mulResult)
+			}
+			return mulResult
+		}
+
+		parseDoMatch := func() {
+			doCursor++
+			status = "DO"
+			if debug {
+				fmt.Println("- DO() -")
+			}
+		}
+
+		parseDontMatch := func() {
+			dontCursor++
+			status = "DONT"
+			if debug {
+				fmt.Println("- DON'T() -")
+			}
+		}
+
 		for i := range len(program) {
 			switch {
 			case len(mulIndexes) > mulCursor && mulIndexes[mulCursor][0] == i:
-				match := mulIndexes[mulCursor]
-				mulCursor++
-				if status == "DONT" {
-					if debug {
-						fmt.Println("x", program[match[0]:match[1]])
-					}
-					continue
-				}
-
-				op1, err := strconv.Atoi(program[match[2]:match[3]])
-				if err != nil {
-					panic(fmt.Errorf("error parsing op1 int: %v", err))
-				}
-				op2, err := strconv.Atoi(program[match[4]:match[5]])
-				if err != nil {
-					panic(fmt.Errorf("error parsing op2 int: %v", err))
-				}
-
-				mulResult := op1 * op2
-				if debug {
-					fmt.Println(program[match[0]:match[1]], "=>", mulResult)
-				}
-				sum += mulResult
+				sum += parseMultiplicationMatch()
 			case len(doIndexes) > doCursor && doIndexes[doCursor][0] == i:
-				doCursor++
-				status = "DO"
-				if debug {
-					fmt.Println("- DO() -")
-				}
+				parseDoMatch()
 			case len(dontIndexes) > dontCursor && dontIndexes[dontCursor][0] == i:
-				dontCursor++
-				status = "DONT"
-				if debug {
-					fmt.Println("- DON'T() -")
-				}
+				parseDontMatch()
 			}
 		}
 	}
