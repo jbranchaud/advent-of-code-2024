@@ -7,6 +7,7 @@ import (
 	"strconv"
 )
 
+// https://adventofcode.com/2024/day/3
 // part 2 solution => 102467299
 func part2(debug bool) {
 	programs, err := util.ReadLines("input1.txt")
