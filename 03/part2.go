@@ -37,9 +37,9 @@ func part2(debug bool) {
 
 		mulCursor, doCursor, dontCursor := 0, 0, 0
 
-		parseMultiplicationMatch := func() int {
-			match := mulIndexes[mulCursor]
-			mulCursor++
+		parseMultiplicationMatch := func(program string, mulIndexes [][]int, mulCursor *int, status string, debug bool) int {
+			match := mulIndexes[*mulCursor]
+			*mulCursor++
 			if status == "DONT" {
 				if debug {
 					fmt.Println("x", program[match[0]:match[1]])
@@ -83,7 +83,7 @@ func part2(debug bool) {
 		for i := range len(program) {
 			switch {
 			case len(mulIndexes) > mulCursor && mulIndexes[mulCursor][0] == i:
-				sum += parseMultiplicationMatch()
+				sum += parseMultiplicationMatch(program, mulIndexes, &mulCursor, status, debug)
 			case len(doIndexes) > doCursor && doIndexes[doCursor][0] == i:
 				parseDoMatch()
 			case len(dontIndexes) > dontCursor && dontIndexes[dontCursor][0] == i:
