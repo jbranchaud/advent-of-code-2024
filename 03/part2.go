@@ -30,11 +30,14 @@ func part2(debug bool) {
 	status := defaultStatus
 
 	for _, program := range programs {
+		// Find indexes of all `mul(N,M)` in `program` string
 		mulIndexes := mulMatcher.FindAllStringSubmatchIndex(program, -1)
+		// Find indexes of all `do()` in `program` string
 		doIndexes := doMatcher.FindAllStringSubmatchIndex(program, -1)
+		// Find indexes of all `don't()` in `program` string
 		dontIndexes := dontMatcher.FindAllStringSubmatchIndex(program, -1)
-		// matches := mulMatcher.FindAllStringSubmatch(program, -1)
 
+		// cursors for tracking place in each _Indexes slice
 		mulCursor, doCursor, dontCursor := 0, 0, 0
 
 		parseMultiplicationMatch := func(program string, mulIndexes [][]int, mulCursor *int, status string, debug bool) int {
@@ -64,30 +67,33 @@ func part2(debug bool) {
 			return mulResult
 		}
 
-		parseDoMatch := func() {
-			doCursor++
-			status = "DO"
+		parseDoMatch := func(doCursor *int, status *string, debug bool) {
+			*doCursor++
+			*status = "DO"
 			if debug {
 				fmt.Println("- DO() -")
 			}
 		}
 
-		parseDontMatch := func() {
-			dontCursor++
-			status = "DONT"
+		parseDontMatch := func(dontCursor *int, status *string, debug bool) {
+			*dontCursor++
+			*status = "DONT"
 			if debug {
 				fmt.Println("- DON'T() -")
 			}
 		}
 
+		// step through ever single position in the `program` string
+		// if the position matches a recognized syntax index, then parse it
+		// otherwise no-op and proceed
 		for i := range len(program) {
 			switch {
 			case len(mulIndexes) > mulCursor && mulIndexes[mulCursor][0] == i:
 				sum += parseMultiplicationMatch(program, mulIndexes, &mulCursor, status, debug)
 			case len(doIndexes) > doCursor && doIndexes[doCursor][0] == i:
-				parseDoMatch()
+				parseDoMatch(&doCursor, &status, debug)
 			case len(dontIndexes) > dontCursor && dontIndexes[dontCursor][0] == i:
-				parseDontMatch()
+				parseDontMatch(&dontCursor, &status, debug)
 			}
 		}
 	}
