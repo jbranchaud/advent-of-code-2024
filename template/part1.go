@@ -1,12 +1,14 @@
 package main
 
 import (
-	"aoc_2024/util"
 	"fmt"
 )
 
 func part1(debug bool) {
-	input, err := util.ReadLines("input1.txt")
+	puzzleToSolve := "sample"
+	// puzzleToSolve := "real"
+
+	input, err := getInput("part1", puzzleToSolve)
 	if err != nil {
 		fmt.Printf("Error reading input: %v\n", err)
 		return
