@@ -18,7 +18,6 @@ func part1(debug bool) {
 	maxY := len(input)
 
 	var guard Guard
-	// var obstacles []Point
 	var obstaclesByX map[int][]Point
 	var obstaclesByY map[int][]Point
 	obstaclesByX = make(map[int][]Point)
@@ -26,13 +25,11 @@ func part1(debug bool) {
 
 	for i, line := range input {
 		for j, cell := range line {
-			// TODO: Make sure I didn't get X/Y backwards
 			x := j
 			y := i
 			p := Point{X: x, Y: y}
 			switch cell {
 			case '#':
-				// obstacles = append(obstacles, p)
 				upsertPoint(obstaclesByX, x, p)
 				upsertPoint(obstaclesByY, y, p)
 			case '^':
@@ -55,10 +52,10 @@ func part1(debug bool) {
 		}
 
 		if event == REACHED_EDGE {
+			// reached the edge of the map
 			guardOnMap = false
-			// add all positions between curr guard pos and nextPosition
 		} else if event == ENCOUNTERED_OBSTACLE {
-			// add all positions between curr guard pos and nextPosition
+			// walk guard to the next obstacle, turn, and continue
 			guard.SetLocation(nextPosition)
 			guard.TurnRight()
 		} else {

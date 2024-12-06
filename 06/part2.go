@@ -82,10 +82,10 @@ func part2(debug bool) {
 		}
 
 		if event == REACHED_EDGE {
+			// reached the edge of the map
 			guardOnMap = false
-			// add all positions between curr guard pos and nextPosition
 		} else if event == ENCOUNTERED_OBSTACLE {
-			// add all positions between curr guard pos and nextPosition
+			// walk guard to the next obstacle, turn, and continue
 			guard.SetLocation(nextPosition)
 			guard.TurnRight()
 		} else {
