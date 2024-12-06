@@ -296,41 +296,4 @@ func getNextPosition(
 	} else {
 		return ENCOUNTERED_OBSTACLE, nextPosition
 	}
-
-	// switch guard.Dir {
-	// case UP:
-	// 	stableAxis = "x"
-	// x := nextPosition.X
-
-	// if nextPosition.Y == 0 {
-	// 	return REACHED_EDGE, nextPosition
-	// } else {
-	// 	// otherwise, we want to advance the position until we run into something
-	// 	obstaclesOnColumn := obstaclesByX[x]
-
-	// 	// find the largest Y on the column, that's what the guard will run into first
-	// 	largestObstaclePosition := Point{X: x, Y: -1}
-	// 	for _, obstaclePos := range obstaclesOnColumn {
-	// 		if closestObstacleCheck(guard.Loc, obstaclePos, largestObstaclePosition) {
-	// 			largestObstaclePosition = obstaclePos
-	// 		}
-	// 		// if obstaclePos.Y < guard.Loc.Y && obstaclePos.Y > largestObstaclePosition.Y {
-	// 		// 	largestObstaclePosition = obstaclePos
-	// 		// }
-	// 	}
-
-	// 	nextPosition = Point{X: x, Y: largestObstaclePosition.Y + 1}
-	// 	if largestObstaclePosition.Y == -1 {
-	// 		return REACHED_EDGE, nextPosition
-	// 	} else {
-	// 		return ENCOUNTERED_OBSTACLE, nextPosition
-	// 	}
-	// }
-	// case RIGHT:
-	// 	stableAxis = "y"
-	// case DOWN:
-	// 	stableAxis = "x"
-	// case LEFT:
-	// 	stableAxis = "y"
-	// }
 }
